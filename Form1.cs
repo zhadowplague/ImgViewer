@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ImgViewer
@@ -24,6 +18,7 @@ namespace ImgViewer
 		PointF _offset = PointF.Empty;
 		Point _position = Point.Empty;
 		DateTime _lastClick;
+		GifGaffer _gifGaffer;
 
 		public Form1(string[] args)
 		{
@@ -34,15 +29,16 @@ namespace ImgViewer
 				return;
 			}
 			_path = args[1];
+			_gifGaffer = new GifGaffer(pictureBox1);
 			LoadImg();
 
 			pictureBox1.MouseWheel += PictureBox1_MouseWheel;
 			pictureBox1.Paint += PictureBox1_Paint;
-			this.KeyUp += Form1_KeyUp;
+			KeyUp += Form1_KeyUp;
 			pictureBox1.MouseDown += Form1_MouseDown;
-			this.MouseDown += Form1_MouseDown;
+			MouseDown += Form1_MouseDown;
 			pictureBox1.MouseUp += Form1_MouseUp;
-			this.MouseUp += Form1_MouseUp;
+			MouseUp += Form1_MouseUp;
 			pictureBox1.MouseMove += Form1_MouseMove;
 		}
 
@@ -130,6 +126,7 @@ namespace ImgViewer
 
 		private void LoadImg()
 		{
+			_gifGaffer.Stop();
 			_offset = PointF.Empty;
 			try
 			{
@@ -139,8 +136,9 @@ namespace ImgViewer
 				_zoomFactor = 1.0f / imgMax;
 				_zoom = (windowMax * 0.5f) / imgMax;
 				pictureBox1.Invalidate();
+				Text = Path.GetFileName(_path);	
 			}
-			catch 
+			catch
 			{
 				MessageBox.Show($"Failed to load file {_path}");
 			}
@@ -155,11 +153,11 @@ namespace ImgViewer
 		string[] allowedExtensions = { ".png", ".jpeg", ".jpg", ".gif", ".bmp" };
 		private void Form1_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.KeyCode == Keys.Left)
+			if (e.KeyCode == Keys.Left || e.KeyCode == Keys.A)
 			{
 				NextImg();
 			}
-			else if (e.KeyCode == Keys.Right)
+			else if (e.KeyCode == Keys.Right || e.KeyCode == Keys.D)
 			{
 				PreviousImg();
 			}
@@ -170,6 +168,14 @@ namespace ImgViewer
 			else if (e.KeyCode == Keys.ControlKey)
 			{
 				_slowZoom = true;
+			}
+			else if (e.KeyCode == Keys.S)
+			{
+				_gifGaffer.ToggleSpeed();
+			}
+			else if (e.KeyCode == Keys.W)
+			{
+				_gifGaffer.Step();
 			}
 		}
 

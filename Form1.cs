@@ -147,7 +147,9 @@ namespace ImgViewer
 		string[] GetFilesInFolder()
 		{
 			var directory = Path.GetDirectoryName(_path);
-			return Directory.GetFiles(directory);
+			var files = Directory.GetFiles(directory);
+			Array.Sort(files, new NaturalStringComparer());
+			return files;
 		}
 
 		string[] allowedExtensions = { ".png", ".jpeg", ".jpg", ".gif", ".bmp" };

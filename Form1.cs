@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.FileIO;
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
@@ -93,6 +94,8 @@ namespace ImgViewer
 			e.Graphics.Clear(this.BackColor);
 			e.Graphics.InterpolationMode = _filter ? InterpolationMode.HighQualityBicubic : InterpolationMode.NearestNeighbor;
 			e.Graphics.PixelOffsetMode = PixelOffsetMode.None;
+			if (pictureBox1.Image == null)
+				return;
 			var width = pictureBox1.Image.Size.Width * _zoom;
 			var height = pictureBox1.Image.Size.Height * _zoom;
 			_offset.X = Clamp(_offset.X, -width * 0.5f, width * 0.5f);
@@ -178,6 +181,14 @@ namespace ImgViewer
 			else if (e.KeyCode == Keys.W)
 			{
 				_gifGaffer.Step();
+			}
+			else if (e.KeyCode == Keys.Delete)
+			{
+				_gifGaffer.Stop();
+				var img = pictureBox1.Image;
+				pictureBox1.Image = null;
+				img.Dispose();
+				FileSystem.DeleteFile(_path, UIOption.AllDialogs, RecycleOption.SendToRecycleBin, UICancelOption.DoNothing);
 			}
 		}
 

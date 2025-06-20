@@ -16,7 +16,7 @@ namespace ImgViewer
 
 		enum Speeds
 		{
-			Slow, Medium, Fast
+			Slow, Medium, Fast, VeryFast
 		}
 
 		public void ToggleSpeed()
@@ -31,6 +31,9 @@ namespace ImgViewer
 					_speed = Speeds.Fast;
 					break;
 				case Speeds.Fast:
+					_speed = Speeds.VeryFast;
+					break;
+				case Speeds.VeryFast:
 					_speed = Speeds.Slow;
 					break;
 			}
@@ -49,6 +52,8 @@ namespace ImgViewer
 					return 250;
 				case Speeds.Fast:
 					return 100;
+					case Speeds.VeryFast:
+					return 33;
 			}
 			return 0;
 		}

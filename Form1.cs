@@ -160,11 +160,11 @@ namespace ImgViewer
 		{
 			if (e.KeyCode == Keys.Left || e.KeyCode == Keys.A)
 			{
-				NextImg();
+				PreviousImg();
 			}
 			else if (e.KeyCode == Keys.Right || e.KeyCode == Keys.D)
 			{
-				PreviousImg();
+				NextImg();
 			}
 			else if (e.KeyCode == Keys.F)
 			{

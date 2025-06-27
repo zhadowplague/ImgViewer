@@ -63,11 +63,11 @@ namespace ImgViewer
 			{
 				if (e.Location.X < Size.Width * 0.15)
 				{
-					PreviousImg();
+					NextImg();
 				}
 				else if (e.Location.X > Size.Width * 0.85)
 				{
-					NextImg();
+					PreviousImg();
 				}
 			}
 			_mouseDown = false;
@@ -160,11 +160,11 @@ namespace ImgViewer
 		{
 			if (e.KeyCode == Keys.Left || e.KeyCode == Keys.A)
 			{
-				PreviousImg();
+				NextImg();
 			}
 			else if (e.KeyCode == Keys.Right || e.KeyCode == Keys.D)
 			{
-				NextImg();
+				PreviousImg();
 			}
 			else if (e.KeyCode == Keys.F)
 			{
